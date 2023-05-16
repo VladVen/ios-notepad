@@ -7,16 +7,25 @@ import SearchIcon from "@mui/icons-material/Search";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import style from "./header.module.scss";
 
-interface IHeader {}
-export const Header: FC<IHeader> = (props) => {
+interface IHeader {
+  setDeleteMode: () => void;
+  setCreateMod: () => void;
+}
+export const Header: FC<IHeader> = ({ setDeleteMode, setCreateMod }) => {
   return (
     <div className={style.container}>
       <div>
-        <Button sx={{ minWidth: "30px" }}>
+        <Button
+          sx={{ minWidth: "30px" }}
+          onClick={setCreateMod}
+        >
           <AddBoxIcon />
         </Button>
 
-        <Button sx={{ minWidth: "30px" }}>
+        <Button
+          sx={{ minWidth: "30px" }}
+          onClick={setDeleteMode}
+        >
           <DeleteForeverIcon />
         </Button>
       </div>

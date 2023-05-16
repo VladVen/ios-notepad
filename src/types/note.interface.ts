@@ -4,5 +4,5 @@ export interface INote {
   id: string;
   content: string;
   title: string;
-  lastModified: Date;
+  lastModified: number;
 }
