@@ -8,6 +8,7 @@ import { useGetAllNotesQuery } from "./redux/slices/notesSlice";
 import { INote } from "./types/note.interface";
 import { EditArea } from "./components/editArea/editArea";
 import { v4 } from "uuid";
+import { Loader } from "./components/loader/loader";
 
 function App() {
   const { data, error, isFetching, isLoading } = useGetAllNotesQuery();
@@ -29,7 +30,7 @@ function App() {
   }, [createMode]);
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (

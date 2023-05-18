@@ -31,9 +31,12 @@ export const EditArea: FC<IEditArea> = ({
   const debouncedTitle = useDebounce(title, 1000);
   const debouncedContent = useDebounce(content, 1000);
 
+  const [date, setDate] = useState(new Date(note.lastModified));
+
   useEffect(() => {
     async function browseData() {
       if (debouncedTitle !== note.title || debouncedContent !== note.content) {
+        const currentTime = new Date(Date.now());
         if (createMode) {
           const response = (await createNote({
             title: debouncedTitle,
@@ -50,26 +53,23 @@ export const EditArea: FC<IEditArea> = ({
             id: note.id,
           });
         }
+        setDate(currentTime);
       }
     }
     browseData();
   }, [debouncedTitle, debouncedContent]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-      <div>{new Date(note.lastModified).toDateString()}</div>
+    <div className={style.container}>
+      <div className={style.date}>{`${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()}  ${date.getHours()}:${date.getMinutes()}`}</div>
       <TextField
         placeholder="Enter your Title"
         variant="standard"
         value={title}
         onChange={(e) => setTitle(e.currentTarget.value)}
       />
-      <br />
-      {/* <TextField
-        placeholder="Enter note"
-        value={content}
-        onChange={(e) => setContent(e.currentTarget.value)}
-      /> */}
 
       <div className={style.fullscreen}>
         <textarea
