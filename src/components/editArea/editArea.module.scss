@@ -31,3 +31,9 @@
   text-align: center;
   color: #5e5d5d;
 }
+
+@media screen and (max-width: 750px) {
+  .container {
+    border: none;
+  }
+}

@@ -4,16 +4,17 @@ import React, { FC } from "react";
 import { INote } from "../../types/note.interface";
 import { Note } from "../note/note";
 import style from "./sidebar.module.scss";
-import { useDeleteNoteMutation } from "../../redux/slices/notesSlice";
+import { useDeleteNoteMutation } from "../../redux/api/notesApi";
+import { NoNotes } from "../noNotes/noNotes";
 
-interface INavbar {
+interface ISideBar {
   notes: INote[];
   selectNote: (note: INote | null) => void;
   deleteMode: boolean;
   setCreateMode: () => void;
 }
 
-export const Navbar: FC<INavbar> = ({
+export const SideBar: FC<ISideBar> = ({
   notes,
   selectNote,
   deleteMode,
@@ -29,19 +30,26 @@ export const Navbar: FC<INavbar> = ({
   };
 
   return (
-    <div
+    <aside
       className={style.container}
-      onClick={setCreateMode}
+      onClick={(e) => {
+        e.stopPropagation();
+        setCreateMode();
+      }}
     >
-      {[...notes].reverse().map((item) => (
-        <Note
-          note={item}
-          key={item.id}
-          selectNote={selectNote}
-          deleteMode={deleteMode}
-          onDelete={onDelete}
-        />
-      ))}
-    </div>
+      {notes.length ? (
+        [...notes].reverse().map((item) => (
+          <Note
+            note={item}
+            key={item.id}
+            selectNote={selectNote}
+            deleteMode={deleteMode}
+            onDelete={onDelete}
+          />
+        ))
+      ) : (
+        <NoNotes />
+      )}
+    </aside>
   );
 };

@@ -1,3 +1,4 @@
+/** @format */
 
 .container {
   display: flex;
@@ -8,5 +9,24 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    button {
+      min-width: 30px;
+      height: 30px;
+      padding: 0;
+    }
+    .menu {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .container {
+    & > div:first-child {
+      gap: 5px;
+      .menu {
+        display: flex;
+      }
+    }
   }
 }

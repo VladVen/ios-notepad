@@ -1,17 +1,14 @@
 /** @format */
 
-import { Skeleton } from "@mui/material";
 import React, { FC } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
+import style from "./loader.module.scss";
 
 interface ILoader {}
 export const Loader: FC<ILoader> = (props) => {
   return (
-    <div className="container">
-      <Skeleton />
-      <div className="content">
-        <Skeleton />
-        <Skeleton />
-      </div>
+    <div className={style.container}>
+      <CircularProgress />
     </div>
   );
 };

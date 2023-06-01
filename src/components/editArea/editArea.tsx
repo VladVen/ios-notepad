@@ -6,7 +6,7 @@ import { TextField } from "@mui/material";
 import {
   useCreateNoteMutation,
   useEditNoteMutation,
-} from "../../redux/slices/notesSlice";
+} from "../../redux/api/notesApi";
 import { useDebounce } from "../../utils/hooks/useDebounce.hook";
 import style from "./editArea.module.scss";
 
@@ -59,12 +59,25 @@ export const EditArea: FC<IEditArea> = ({
     browseData();
   }, [debouncedTitle, debouncedContent]);
 
-  return (
-    <div className={style.container}>
-      <div className={style.date}>{`${date.getDate()}/${
+  let header = createMode
+    ? "New Note"
+    : `${date.getDate()}/${
         date.getMonth() + 1
-      }/${date.getFullYear()}  ${date.getHours()}:${date.getMinutes()}`}</div>
+      }/${date.getFullYear()}  ${date.getHours()}:${date.getMinutes()}`;
+
+  return (
+    <div
+      className={style.container}
+      aria-label="Area for Editing Note"
+    >
+      <div
+        className={style.date}
+        aria-label="Last Modified"
+      >
+        {header}
+      </div>
       <TextField
+        aria-label="Enter your Title"
         placeholder="Enter your Title"
         variant="standard"
         value={title}
@@ -73,6 +86,7 @@ export const EditArea: FC<IEditArea> = ({
 
       <div className={style.fullscreen}>
         <textarea
+          aria-label="Enter note"
           className={style.notebookInput}
           placeholder="Enter note"
           value={content}

@@ -1,47 +1,75 @@
 /** @format */
 
-import { TextField, InputAdornment, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import React, { FC } from "react";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import SearchIcon from "@mui/icons-material/Search";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import style from "./header.module.scss";
+import { Search } from "../search/search";
+import MenuIcon from "@mui/icons-material/Menu";
 
 interface IHeader {
   setDeleteMode: () => void;
   setCreateMod: () => void;
+  search: string;
+  setSearch: (search: string) => void;
+  visibilityMenuHandler: () => void;
+  visibleMenu: boolean;
 }
-export const Header: FC<IHeader> = ({ setDeleteMode, setCreateMod }) => {
+export const Header: FC<IHeader> = ({
+  setDeleteMode,
+  setCreateMod,
+  search,
+  setSearch,
+  visibilityMenuHandler,
+  visibleMenu,
+}) => {
+  const addNewNoteHandler = () => {
+    setCreateMod();
+    if (visibleMenu) {
+      visibilityMenuHandler();
+    }
+  };
+  const deleteModeHandler = () => {
+    setDeleteMode();
+    if (!visibleMenu) {
+      visibilityMenuHandler();
+    }
+  };
+
   return (
-    <div className={style.container}>
+    <nav className={style.container}>
       <div>
         <Button
-          sx={{ minWidth: "30px" }}
-          onClick={setCreateMod}
+          className={style.menu}
+          onClick={visibilityMenuHandler}
+          aria-label="Menu "
         >
-          <AddBoxIcon />
+          <MenuIcon sx={{ fontSize: 25 }} />
         </Button>
 
         <Button
-          sx={{ minWidth: "30px" }}
-          onClick={setDeleteMode}
+          onClick={addNewNoteHandler}
+          aria-label="Add New Note"
         >
-          <DeleteForeverIcon />
+          <AddBoxIcon sx={{ fontSize: 25 }} />
+        </Button>
+
+        <Button
+          onClick={deleteModeHandler}
+          aria-label="Delete Mode"
+        >
+          <DeleteForeverIcon sx={{ fontSize: 25 }} />
         </Button>
       </div>
       <div>
-        <TextField
-          placeholder="Search"
-          size="small"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon fontSize="small" />
-              </InputAdornment>
-            ),
-          }}
+        <Search
+          search={search}
+          visibilityMenuHandler={visibilityMenuHandler}
+          visibleMenu={visibleMenu}
+          setSearch={setSearch}
         />
       </div>
-    </div>
+    </nav>
   );
 };

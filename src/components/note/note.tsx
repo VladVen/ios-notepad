@@ -19,7 +19,6 @@ export const Note: FC<INoteProps> = ({
   onDelete,
 }) => {
   const deleteHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
     onDelete(note.id);
   };
 
@@ -31,19 +30,23 @@ export const Note: FC<INoteProps> = ({
 
   return (
     <div
+      aria-label="Note"
       className={style.note}
       onClick={() => selectNote(note)}
     >
       <div>
-        <h4>{note.title}</h4>
+        <h4 aria-label="TItle">{note.title}</h4>
 
-        <div>
+        <div aria-label="Last Modified and Short Content">
           {date} {note.content}
         </div>
       </div>
 
       {deleteMode && (
-        <Button onClick={deleteHandler}>
+        <Button
+          onClick={deleteHandler}
+          aria-label="Delete current note"
+        >
           <CancelIcon color="error" />
         </Button>
       )}
